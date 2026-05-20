@@ -1,0 +1,24 @@
+{
+  "name": "micro-frontend-shop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:remotes": "pnpm --filter remote-catalog build && pnpm --filter remote-cart build",
+    "preview:catalog": "pnpm --filter remote-catalog preview --host 127.0.0.1",
+    "preview:cart": "pnpm --filter remote-cart preview --host 127.0.0.1",
+    "dev:host": "pnpm --filter host-shell dev --host 127.0.0.1",
+    "start": "node ./scripts/start.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.1.3",
+      "onFail": "download"
+    }
+  },
+  "type": "module"
+}

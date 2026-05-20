@@ -1,0 +1,40 @@
+.mini-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 128px;
+  padding: 8px 12px;
+  border: 1px solid #d7dfeb;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.mini-cart-count {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.mini-cart-copy {
+  display: grid;
+  gap: 1px;
+  text-align: left;
+}
+
+.mini-cart-copy span {
+  color: #5d6b82;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.mini-cart-copy strong {
+  color: #18202f;
+  font-size: 16px;
+}

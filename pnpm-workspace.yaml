@@ -1,0 +1,4 @@
+packages:
+  - 'host-shell'
+  - 'remote-catalog'
+  - 'remote-cart'

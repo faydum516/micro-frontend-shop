@@ -1,0 +1,89 @@
+.shell-app {
+  min-height: 100svh;
+  background: #f6f7f9;
+  color: #18202f;
+}
+
+.shell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 32px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde3eb;
+  box-shadow: 0 8px 28px rgba(20, 30, 46, 0.08);
+}
+
+.shell-header h1,
+.shell-section-heading h2 {
+  margin: 0;
+  color: #18202f;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.shell-header h1 {
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.shell-eyebrow {
+  margin: 0 0 4px;
+  color: #5d6b82;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.shell-main {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 36px 0 56px;
+}
+
+.shell-section-heading {
+  margin-bottom: 18px;
+}
+
+.shell-section-heading h2 {
+  font-size: 28px;
+}
+
+.shell-loading {
+  padding: 40px;
+  border: 1px solid #dde3eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #5d6b82;
+  text-align: center;
+}
+
+.shell-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #d8dee8;
+  border-top-color: #2563eb;
+  border-radius: 999px;
+  animation: shell-spin 0.8s linear infinite;
+}
+
+@keyframes shell-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .shell-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px 20px;
+  }
+
+  .shell-main {
+    width: min(100% - 28px, 1180px);
+    padding-top: 28px;
+  }
+}
