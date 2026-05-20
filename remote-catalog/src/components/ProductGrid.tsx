@@ -1,65 +1,76 @@
+import { Link } from 'react-router-dom';
+import type { Product } from '../data/products';
 import './ProductGrid.css';
 
-interface Product {
-  id: string | number;
-  name: string;
-  price: number;
-  image: string;
-  badge: string;
+interface ProductGridProps {
+  products: Product[];
+  onAddToCart: (product: Product) => void;
+  addedId?: string | null;
 }
 
-const defaultProducts: Product[] = [
-  {
-    id: 'jacket',
-    name: 'Modular Commuter Jacket',
-    price: 148,
-    badge: 'Bestseller',
-    image:
-      'https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 'pack',
-    name: 'Everyday Field Pack',
-    price: 96,
-    badge: 'New',
-    image:
-      'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 'watch',
-    name: 'Slate Fitness Watch',
-    price: 214,
-    badge: 'Low stock',
-    image:
-      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80',
-  },
-];
+function StarRating({ rating }: { rating: number }) {
+  const full = Math.floor(rating);
+  const half = rating % 1 >= 0.5;
+  return (
+    <span className="product-stars" aria-label={`${rating} out of 5 stars`}>
+      {'★'.repeat(full)}
+      {half ? '½' : ''}
+      {'☆'.repeat(5 - full - (half ? 1 : 0))}
+    </span>
+  );
+}
 
-
-
-const ProductGrid = ({ products = defaultProducts }: { products?: Product[] }) => {
-    
-    // Create a function to dispatch a custom event on the global window object when a user clicks "Add to Cart"
-    const addToCart = (product: Product) => {
-        const event = new CustomEvent('add-to-cart', { detail: product });
-        window.dispatchEvent(event);
-    };
-
+const ProductGrid = ({ products, onAddToCart, addedId }: ProductGridProps) => {
+  if (products.length === 0) {
     return (
-        <div className="product-grid" data-remote="remote-catalog">
-        {products.map((product) => (
-            <div key={product.id} className="product-card">
-            <img className="product-image" src={product.image} alt={product.name} />
-            <div className="product-details">
-                <span className="product-badge">{product.badge}</span>
-                <h3>{product.name}</h3>
-                <p>${product.price}</p>
-                <button className="add-to-cart-button" onClick={() => addToCart(product)}>Add to Cart</button>
-            </div>
-            </div>
-        ))}
-        </div>
+      <div className="empty-state">
+        <p>No products match your filters. Try adjusting search or category.</p>
+      </div>
     );
+  }
+
+  return (
+    <div className="product-grid" data-remote="remote-catalog">
+      {products.map((product) => {
+        const discount =
+          product.originalPrice &&
+          Math.round((1 - product.price / product.originalPrice) * 100);
+        return (
+          <article key={product.id} className="product-card">
+            <Link to={`/products/${product.id}`} className="product-image-link">
+              <img className="product-image" src={product.image} alt={product.name} loading="lazy" />
+              {discount ? <span className="product-discount">-{discount}%</span> : null}
+            </Link>
+            <div className="product-details">
+              <span className={`product-badge badge-${product.badge.toLowerCase().replace(/\s+/g, '-')}`}>
+                {product.badge}
+              </span>
+              <Link to={`/products/${product.id}`} className="product-title-link">
+                <h3>{product.name}</h3>
+              </Link>
+              <div className="product-meta">
+                <StarRating rating={product.rating} />
+                <span className="product-reviews">({product.reviewCount})</span>
+              </div>
+              <div className="product-price-row">
+                <p className="product-price">${product.price}</p>
+                {product.originalPrice ? (
+                  <p className="product-price-original">${product.originalPrice}</p>
+                ) : null}
+              </div>
+              <button
+                type="button"
+                className={`add-to-cart-button ${addedId === product.id ? 'added' : ''}`}
+                onClick={() => onAddToCart(product)}
+              >
+                {addedId === product.id ? '✓ Added' : 'Add to Cart'}
+              </button>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
 };
 
 export default ProductGrid;

@@ -10,9 +10,9 @@ export default defineConfig({
       filename: 'remoteEntry.js',
       exposes: {
         // Left side is the alias name, right side is the path to the file
-        './ProductGrid': './src/components/ProductGrid.tsx',
+        './ProductGrid': './src/components/ProductGrid.tsx', './CatalogRoutes': './src/routes.tsx', './ProductList': './src/pages/ProductList.tsx', './ProductDetail': './src/pages/ProductDetail.tsx',
       },
-      shared: ['react', 'react-dom'],
+      shared: ['react', 'react-dom', 'react-router-dom'],
     }),
   ],
   server: { port: 5001 },

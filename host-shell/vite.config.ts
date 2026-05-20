@@ -12,7 +12,7 @@ export default defineConfig({
         remoteCatalog: 'http://localhost:5001/assets/remoteEntry.js',
         remoteCart: 'http://localhost:5002/assets/remoteEntry.js',
       },
-      shared: ['react', 'react-dom'],
+      shared: ['react', 'react-dom', 'react-router-dom'],
     }),
   ],
   server: { port: 5000 },

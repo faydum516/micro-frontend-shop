@@ -10,9 +10,9 @@ export default defineConfig({
       filename: 'remoteEntry.js',
       exposes: {
         // Left side is the alias name, right side is the path to the file
-        './MiniCart': './src/components/MiniCart.tsx',
+        './MiniCart': './src/components/MiniCart.tsx', './CartRoutes': './src/routes.tsx', './CartPage': './src/pages/CartPage.tsx',
       },
-      shared: ['react', 'react-dom'],
+      shared: ['react', 'react-dom', 'react-router-dom'],
     }),
   ],
   server: { port: 5002 },
