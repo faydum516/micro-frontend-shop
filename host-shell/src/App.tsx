@@ -7,6 +7,7 @@ import './App.css';
 const RemoteCatalogRoutes = React.lazy(() => import('remoteCatalog/CatalogRoutes'));
 const RemoteCartRoutes = React.lazy(() => import('remoteCart/CartRoutes'));
 const RemoteMiniCart = React.lazy(() => import('remoteCart/MiniCart'));
+const RemoteShoppingAssistant = React.lazy(() => import('remoteCatalog/ShoppingAssistant'));
 
 function LoadingFallback({ label }: { label: string }) {
   return (
@@ -107,8 +108,14 @@ export default function App() {
 
         <footer className="shell-footer">
           <span>© 2026 Nexus Commerce</span>
-          <span className="shell-footer-tech">React · Vite Federation · pnpm workspace</span>
+          <span className="shell-footer-tech">AI Commerce · Module Federation · pnpm</span>
         </footer>
+
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <RemoteShoppingAssistant />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </BrowserRouter>
   );

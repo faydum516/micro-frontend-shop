@@ -3,6 +3,7 @@ import type { FormEvent } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useCart } from './hooks/useCart';
 import { formatPrice } from './lib/cartEvents';
+import AICartInsights from './components/AICartInsights';
 import './cart.css';
 
 function QtyControl({
@@ -57,6 +58,8 @@ export function CartPage() {
       <h2 style={{ margin: '0 0 24px', fontSize: 28, fontWeight: 800, color: '#18202f', textAlign: 'left' }}>
         Your Cart ({totals.itemCount} items)
       </h2>
+
+      <AICartInsights />
 
       <div className="cart-layout">
         <div className="cart-items">

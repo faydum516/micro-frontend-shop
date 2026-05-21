@@ -176,6 +176,62 @@
   opacity: 0.8;
 }
 
+.home-hero-ai {
+  background: linear-gradient(145deg, #1e1b4b 0%, #312e81 35%, #4f46e5 70%, #7c3aed 100%);
+}
+
+.home-btn-ai {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.home-ai-section h3 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18202f;
+}
+
+.home-ai-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.home-ai-card {
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  background: linear-gradient(160deg, #f5f3ff, #fff);
+  text-align: left;
+}
+
+.home-ai-card-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.home-ai-card h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #312e81;
+}
+
+.home-ai-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #5d6b82;
+  line-height: 1.5;
+}
+
 .home-hero h2 {
   margin: 0 0 16px;
   font-size: 40px;
@@ -393,7 +449,8 @@
   }
 
   .home-stats,
-  .home-cards {
+  .home-cards,
+  .home-ai-grid {
     grid-template-columns: 1fr;
   }
 

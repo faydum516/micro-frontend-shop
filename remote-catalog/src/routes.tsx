@@ -1,6 +1,9 @@
 import { useMemo, useState, useCallback, useEffect } from 'react';
 import { Routes, Route, Link, useParams, useSearchParams } from 'react-router-dom';
 import ProductGrid from './components/ProductGrid';
+import AISearchBar from './components/AISearchBar';
+import AIRecommendations from './components/AIRecommendations';
+import AIProductAdvisor from './components/AIProductAdvisor';
 import {
   PRODUCTS,
   CATEGORIES,
@@ -9,7 +12,9 @@ import {
   type Product,
   type Category,
 } from './data/products';
+import { applyAISearch, type AISearchIntent } from './lib/aiEngine';
 import './catalog.css';
+import './ai.css';
 
 function dispatchAddToCart(product: Pick<Product, 'id' | 'name' | 'price' | 'image'>) {
   window.dispatchEvent(
@@ -30,6 +35,20 @@ export function ProductList() {
   const [sort, setSort] = useState<SortOption>((searchParams.get('sort') as SortOption) || 'featured');
   const [maxPrice, setMaxPrice] = useState(300);
   const [addedId, setAddedId] = useState<string | null>(null);
+  const [aiIntent, setAiIntent] = useState<AISearchIntent | null>(null);
+
+  useEffect(() => {
+    const onAISearch = (e: Event) => {
+      const intent = (e as CustomEvent<AISearchIntent>).detail;
+      setAiIntent(intent);
+      setSearch(intent.query);
+      setCategory(intent.category);
+      setMaxPrice(intent.maxPrice);
+      setSort(intent.sort);
+    };
+    window.addEventListener('ai-search', onAISearch);
+    return () => window.removeEventListener('ai-search', onAISearch);
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -40,6 +59,9 @@ export function ProductList() {
   }, [search, category, sort, setSearchParams]);
 
   const filtered = useMemo(() => {
+    if (aiIntent) {
+      return applyAISearch(PRODUCTS, { ...aiIntent, query: search, category, maxPrice, sort });
+    }
     let list = [...PRODUCTS];
     if (category !== 'all') list = list.filter((p) => p.category === category);
     if (search.trim()) {
@@ -69,7 +91,7 @@ export function ProductList() {
         break;
     }
     return list;
-  }, [search, category, sort, maxPrice]);
+  }, [search, category, sort, maxPrice, aiIntent]);
 
   const handleAdd = useCallback((product: Product) => {
     dispatchAddToCart(product);
@@ -80,13 +102,25 @@ export function ProductList() {
   return (
     <div className="catalog-page">
       <div className="catalog-hero">
+        <span className="ai-badge" style={{ marginBottom: 12 }}>AI-Powered Catalog</span>
         <h2>Spring Collection 2026</h2>
         <p>Curated gear for work, trail, and everything between — ships free over $100.</p>
       </div>
 
+      <AIRecommendations intent="trending" title="Trending now" />
+
       <div className="catalog-layout">
         <aside className="catalog-filters">
-          <h3>Filters</h3>
+          <AISearchBar
+            onSearch={(intent) => {
+              setAiIntent(intent);
+              setSearch(intent.query);
+              setCategory(intent.category);
+              setMaxPrice(intent.maxPrice);
+              setSort(intent.sort);
+            }}
+          />
+          <h3 style={{ marginTop: 20 }}>Filters</h3>
           <div className="filter-group">
             <label htmlFor="search">Search</label>
             <input
@@ -141,6 +175,11 @@ export function ProductList() {
           <div className="catalog-toolbar">
             <p className="result-count">
               Showing <strong>{filtered.length}</strong> of {PRODUCTS.length} products
+              {aiIntent && (
+                <span className="ai-confidence" style={{ display: 'block', marginTop: 6 }}>
+                  {aiIntent.interpretation}
+                </span>
+              )}
             </p>
           </div>
           <ProductGrid products={filtered} onAddToCart={handleAdd} addedId={addedId} />
@@ -307,8 +346,12 @@ export function ProductDetail() {
               ))}
             </ul>
           </div>
+
+          <AIProductAdvisor product={product} />
         </div>
       </div>
+
+      <AIRecommendations seedId={product.id} title="AI also recommends" />
 
       {related.length > 0 && (
         <section className="related-section">

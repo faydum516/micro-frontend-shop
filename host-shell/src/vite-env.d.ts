@@ -19,3 +19,8 @@ declare module 'remoteCart/CartRoutes' {
   const CartRoutes: React.ComponentType;
   export default CartRoutes;
 }
+
+declare module 'remoteCatalog/ShoppingAssistant' {
+  const ShoppingAssistant: React.ComponentType;
+  export default ShoppingAssistant;
+}
